@@ -160,9 +160,6 @@ models:
         description: '{{ doc("item_tax_amount") }}'
       - name: net_item_sales_amount
         description: '{{ doc("net_item_sales_amount") }}'
-    config:
-      group: data_team
-      access: public
   - name: fct_orders
     description: orders fact table
     columns:

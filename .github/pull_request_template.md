@@ -1,5 +1,4 @@
-&lt;!---
-
+<!---
 Provide a short summary in the Title above. Examples of good PR titles:
 * "Feature: add so-and-so models"
 * "Fix: deduplicate such-and-such"
@@ -8,30 +7,22 @@ Provide a short summary in the Title above. Examples of good PR titles:
 
 ## Description & motivation
 
-&lt;!---
+<!---
 Describe your changes, and why you're making them. Is this linked to an open
 issue, a Trello card, or another pull request? Link it here.
 -->
 
 ## Validation of models:
 
-&lt;!---
+<!---
 Include any output that confirms that the models do what is expected. This might
 be a link to an in-development dashboard in your BI tool, or a query that
 compares an existing model with a new one.
 -->
 
-## Changes to existing models:
-
-&lt;!---
-Include this section if you are changing any existing models. Link any related
-pull requests on your BI tool, or instructions for merge (e.g. whether old
-models should be dropped after merge, or whether a full-refresh run is required)
--->
-
 ## Checklist:
 
-&lt;!---
+<!---
 This checklist is mostly useful as a reminder of small things that can easily be
 forgotten – it is meant as a helpful tool rather than hoops to jump through.
 Put an `x` in all the items that apply, make notes next to any that haven't been
