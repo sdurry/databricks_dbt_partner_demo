@@ -1,0 +1,6 @@
+# CODEOWNERS
+
+*   @sdurry
+
+/models  @data-engineering
+models/marts/core    @data-analytics
