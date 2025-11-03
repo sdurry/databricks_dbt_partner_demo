@@ -1,0 +1,57 @@
+version: 2
+
+sources:
+  - name: exchange_rates
+    description: Source data fetched from Open Exchange Rate API
+    database: sa_dev
+    schema: raw_open_exchange_rates
+    config: 
+      freshness: 
+        warn_after:
+          count: 8
+          period: hour
+        error_after:
+          count: 24
+          period: hour
+    tables:
+      - name: currency
+        description: a table describing the available currencies
+        config:
+          loaded_at_field: _fivetran_synced
+        columns:
+          - name: code
+            data_type: string
+            description: '{{ doc("code") }}'
+          - name: _fivetran_deleted
+            data_type: boolean
+            description: '{{ doc("fivetran_deleted") }}'
+          - name: _fivetran_synced
+            data_type: timestamp
+            description: '{{ doc("fivetran_synced") }}'
+          - name: name
+            data_type: string
+            description: '{{ doc("name") }}'
+
+      - name: rate
+        description: A table where each row represents a currency conversion rate.
+        config:
+          loaded_at_field: _fivetran_synced
+        columns:
+          - name: currency_code
+            data_type: string
+            description: '{{ doc("currency_code") }}'
+          - name: data_base
+            data_type: string
+            description: ""
+          - name: data_timestamps
+            data_type: timestamp
+            description: '{{ doc("data_timestamps") }}'
+          - name: _fivetran_deleted
+            data_type: boolean
+            description: '{{ doc("fivetran_deleted") }}'
+          - name: _fivetran_synced
+            data_type: timestamp
+            description: '{{ doc("fivetran_synced") }}'
+          - name: rate
+            data_type: double
+            description: '{{ doc("rate") }}'
