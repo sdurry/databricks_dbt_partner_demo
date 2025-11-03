@@ -29,6 +29,10 @@ flags:
 
 models:
   databricks_demo:
+    # persist resource descriptions as column and relation comments in Unity Catalog
+    +persist_docs:
+      relation: true
+      columns: true
     # Applies to all files under models/example/
     +file_format: delta
     
