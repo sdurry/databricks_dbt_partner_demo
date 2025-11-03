@@ -1,0 +1,18 @@
+version: 2
+
+exposures:
+  - name: business_pulse
+    type: dashboard
+    maturity: high # Options: low, medium, high
+    url: https://public.tableau.com/app/profile/mike.burke2608/viz/BDLDemo/BusinessPulse_1
+    description: 
+      Business Pulse for use by anyone looking to get insights on orders. 
+    
+    depends_on:
+      - ref('fct_orders')
+      - ref('dim_suppliers')
+      - ref('dim_customers')
+
+    owner:
+      name: Analytics
+      email: analytics@newco.com
