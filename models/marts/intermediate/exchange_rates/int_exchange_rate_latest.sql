@@ -7,7 +7,8 @@ with er_history as (
 ), latest_value as (
 
     select 
-        from_currency        
+        id
+        ,from_currency        
         ,to_currency
         ,first_value(exchange_rate) over (
             partition by from_currency, to_currency

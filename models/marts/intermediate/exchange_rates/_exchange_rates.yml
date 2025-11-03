@@ -1,0 +1,28 @@
+models:
+  - name: int_exchange_rate_history
+    config:
+      freshness:
+        build_after: 
+          count: 8
+          period: hour
+          updates_on: all
+    columns:
+      - name: id
+        data_tests:
+          - unique
+      - name: from_currency_code
+      - name: from_currency
+      - name: to_currency_code
+      - name: to_currency
+      - name: exchange_rate
+      - name: loaded_at_ts
+      - name: loaded_at_date
+      - name: loaded_at_month
+      - name: loaded_at_year
+  - name: int_exchange_rate_latest
+    columns:
+      - name: id
+      - name: from_currency
+      - name: to_currency
+      - name: exchange_rate_latest
+      - name: loaded_at_ts_latest

@@ -1,0 +1,31 @@
+models:
+  - name: stg_exchange_rates__currency
+    description: This model provides a standardized view of currency information, including
+      currency codes and their corresponding names, to support financial and transactional
+      processes.
+    columns:
+    - name: currency_code
+      description: The standardized code representing a specific currency, used for
+        financial transactions.
+      data_tests:
+        - unique
+        - not_null
+    - name: currency_name
+      description: The full name of the currency associated with the currency code.
+
+  - name: stg_exchange_rates__rate
+    description: This model is designed to provide a standardized view of exchange rates,
+      facilitating currency conversion and financial analysis across different currencies.
+      It aggregates and processes raw exchange rate data to ensure consistency and accuracy
+      for downstream financial models and reports.
+    columns:
+    - name: id
+      description: A unique identifier for each exchange rate entry.
+    - name: exchange_currency_code
+      description: The source currency code for the exchange rate.
+    - name: base_currency_code
+      description: The target currency code for the exchange rate.
+    - name: exchange_rate
+      description: The conversion rate from the source currency to the target currency.
+    - name: loaded_at_ts
+      description: The timestamp when the exchange rate entry was created.
