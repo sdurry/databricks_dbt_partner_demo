@@ -9,8 +9,13 @@ sources:
       - name: orders
         description: main order tracking table
         config:
-          freshness: # make this a warning as this is static data
-            warn_after: {count: 6, period: hour}
+          freshness:
+            warn_after: 
+              count: 16 
+              period: hour
+            error_after:
+              count: 1
+              period: day
           loaded_at_field: o_orderdate::timestamp
         columns:
           - name: o_orderkey
