@@ -13,11 +13,15 @@ with currencies as (
 
     select *
     from {{ ref('stg_exchange_rates__rate') }}
+    {% if is_incremental() %}
+    where loaded_at_ts >= (select coalesce(max(loaded_at_ts),'1900-01-01') from {{ this }} )
+    {% endif %}
 
 ), joined as (
 
     select
-        er.base_currency_code as from_currency_code
+        er.id
+        ,er.base_currency_code as from_currency_code
         ,"US Dollar" as from_currency
         ,er.exchange_currency_code as to_currency_code
         ,c.currency_name as to_currency
@@ -30,8 +34,7 @@ with currencies as (
 ), format as (
 
     select 
-        {{ dbt_utils.generate_surrogate_key(['from_currency_code', 'to_currency_code','loaded_at_ts']) }} as id
-        ,joined.*
+        joined.*
         ,{{ dbt.date_trunc("day", "loaded_at_ts") }} as loaded_at_date
         ,{{ dbt.date_trunc("month", "loaded_at_ts") }} as loaded_at_month
         ,{{ dbt.date_trunc("year", "loaded_at_ts") }} as loaded_at_year
