@@ -3,6 +3,12 @@ version: 2
 models:
   - name: dim_customers
     description: Customer dimensions table
+    config:
+      freshness:
+        build_after:  
+          count: 1
+          period: day
+          updates_on: all      
     columns:
       - name: customer_key
         data_type: bigint
@@ -96,6 +102,7 @@ models:
         description: '{{ doc("phone_number") }}'
       - name: account_balance
         description: '{{ doc("account_balance") }}'
+
   - name: fct_order_items
     data_tests:
       - dbt_expectations.expect_table_aggregation_to_equal_other_table:
@@ -106,6 +113,12 @@ models:
             compare_expression: sum(net_item_sales_amount)
             group_by: [order_key]
     description: order items fact table
+    config:
+      freshness:
+        build_after:  
+          count: 4
+          period: hour
+          updates_on: any
     columns:
       - name: order_item_key
         description: '{{ doc("order_item_key") }}'
@@ -160,8 +173,15 @@ models:
         description: '{{ doc("item_tax_amount") }}'
       - name: net_item_sales_amount
         description: '{{ doc("net_item_sales_amount") }}'
+
   - name: fct_orders
     description: orders fact table
+    config:
+      freshness:
+        build_after:  
+          count: 1
+          period: hour
+          updates_on: any
     columns:
       - name: order_key
         description: primary key of the model
