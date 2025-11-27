@@ -44,13 +44,15 @@ models:
     # +databricks_tags: {'my_tag': 'my_value'}
     # Tags to be set on the created table
     +incremental_strategy: merge
-    +grants:
-      select: ['Partner Engineers']
     staging:
+      +schema: stage
       +group: data-engineering
       +materialized: view
       +access: protected # Options: private | public | protected
+      intermediate:
+        +schema: intermediate
     marts:
+      +schema: marts
       +materialized: table
       +group: analytics
         
