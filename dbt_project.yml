@@ -49,6 +49,8 @@ models:
       +group: data-engineering
       +materialized: view
       +access: protected # Options: private | public | protected
+      intermediate:
+        +schema: intermediate
     marts:
       +schema: marts
       +materialized: table
