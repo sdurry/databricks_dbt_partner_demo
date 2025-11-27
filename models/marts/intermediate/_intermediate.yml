@@ -13,6 +13,8 @@ models:
         description: foreign key for orders
       - name: customer_key
         description: foreign key for customers
+        data_tests:
+          - not_null
       - name: part_key
         description: foreign key for part
       - name: supplier_key
@@ -57,6 +59,8 @@ models:
         description: item level tax total
       - name: net_item_sales_amount
         description: '{{ doc("net_item_sales_amount") }}'
+      - name: my_new_col
+        description: my cool description
     config:
       tags:
         - output_table_type|orders
