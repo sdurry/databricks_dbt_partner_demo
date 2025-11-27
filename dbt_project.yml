@@ -26,6 +26,8 @@ on-run-start: "grant usage on schema {{target.database}}.{{target.schema}} to `P
 
 flags:
   require_generic_test_arguments_property: true
+  use_materialization_v2: true
+  use_managed_iceberg: true
 
 models:
   databricks_demo:
@@ -44,13 +46,15 @@ models:
     # +databricks_tags: {'my_tag': 'my_value'}
     # Tags to be set on the created table
     +incremental_strategy: merge
-    +grants:
-      select: ['Partner Engineers']
     staging:
+      +schema: stage
       +group: data-engineering
       +materialized: view
       +access: protected # Options: private | public | protected
+      intermediate:
+        +schema: intermediate
     marts:
+      +schema: marts
       +materialized: table
       +group: analytics
         
