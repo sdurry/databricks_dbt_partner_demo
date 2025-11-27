@@ -109,7 +109,8 @@ final as (
         derived_3.item_discount_amount,
         derived_3.quantity,
         derived_3.discount_percentage,
-        derived_3.tax_rate
+        derived_3.tax_rate,
+        1 as my_new_col
     from derived_3
 
 )
