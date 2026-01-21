@@ -14,29 +14,29 @@ This is a **dbt analytics engineering project** running on **Databricks with Uni
 
 ```bash
 # Run all models
-dbt run
+dbtf run
 
 # Run a specific model and its upstream dependencies
-dbt run --select +model_name
+dbtf run --select +model_name
 
 # Run all models in a folder
-dbt run --select staging.tpch
+dbtf run --select staging.tpch
 
 # Run tests
-dbt test
+dbtf test
 
 # Test a specific model
-dbt test --select model_name
+dbtf test --select model_name
 
 # Generate and serve documentation
-dbt docs generate
-dbt docs serve
+dbtf docs generate
+dbtf docs serve
 
 # Check source freshness
-dbt source freshness
+dbtf source freshness
 
 # Install packages
-dbt deps
+dbtf deps
 
 # Clean compiled artifacts
 dbt clean
