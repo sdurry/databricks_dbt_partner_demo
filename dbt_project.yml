@@ -23,6 +23,7 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "dbt_packages"
 
 on-run-start: "grant usage on schema {{target.database}}.{{target.schema}} to `Partner Engineers`"
+on-run-end: "{{ centralize_test_failures(results) }}"
 
 flags:
   require_generic_test_arguments_property: true
@@ -54,4 +55,7 @@ models:
       +materialized: table
       +group: analytics
         
+data_tests:
+  databricks_demo:
+    +store_failures: true
     

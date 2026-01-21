@@ -207,6 +207,9 @@ models:
         description: id of the clerk
       - name: ship_priority
         description: numeric representation of the shipping priority, zero being the default
+        data_tests:
+          - unique
+          - not_null
       - name: order_count
         description: number of orders (includes returns)
       - name: return_count
