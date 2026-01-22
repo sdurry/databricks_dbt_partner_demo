@@ -1,0 +1,47 @@
+version: 2
+
+macros:
+  - name: centralize_run_results
+    description: |
+      Centralizes execution metadata from dbt runs for seeds, models, and snapshots.
+
+      This macro is designed to be called in an `on-run-end` hook. It captures key execution
+      metrics from the run results and stores them for monitoring and analysis.
+
+      **Usage:**
+      Add to `dbt_project.yml`:
+      ```yaml
+      on-run-end:
+        - "{{ centralize_run_results(results) }}"
+      ```
+
+      **Resource Types Captured:**
+      - `seed`: Seed file loads
+      - `model`: Model materializations
+      - `snapshot`: Snapshot executions
+
+      **Fields Captured:**
+      - `database_relation_name`: Full relation name (catalog.schema.table)
+      - `model_name`: dbt unique_id for the node
+      - `execution_status`: Result status (success, error, skipped)
+      - `execution_time`: Time taken in seconds
+      - `rows_affected`: Number of rows affected (null if not available from adapter)
+      - `_timestamp`: Timestamp when the record was created
+
+      **Tables Created:**
+      - `{target.schema}.run_results_central`: Replaced each run with current results
+      - `{target.schema}.run_results_history`: Append-only historical record (non-dev only)
+
+      **Environment Behavior:**
+      - Dev (`DBT_CLOUD_ENVIRONMENT_TYPE=dev` or unset): Only creates central table
+      - Non-dev: Also inserts into history table with surrogate key
+
+      **Requirements:**
+      - Requires `dbt_utils` package for surrogate key generation (history table)
+
+    arguments:
+      - name: results
+        type: list
+        description: |
+          The dbt `results` object passed automatically by dbt in on-run-end hooks.
+          Contains execution results for all nodes in the run.

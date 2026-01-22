@@ -85,3 +85,37 @@ The project uses these dbt packages (defined in `packages.yml`):
 Models are organized into ownership groups:
 - `data-engineering`: Staging layer
 - `analytics`: Marts layer
+
+## On-Run-End Macros
+
+The project uses two on-run-end macros to centralize and historize dbt execution metadata:
+
+### `centralize_test_failures`
+- **File**: `macros/centralise_failures.sql`
+- **Purpose**: Captures test failures from `--store-failures` runs
+- **Tables created**:
+  - `test_failure_central`: Current run's test failures (replaced each run)
+  - `test_failure_history`: Historical test failures (non-dev environments only)
+- **Fields**: `test_name`, `model_name`, `test_failures_json`, `_timestamp`
+
+### `centralize_run_results`
+- **File**: `macros/centralise_run_results.sql`
+- **Purpose**: Captures execution metadata for seeds, models, and snapshots
+- **Tables created**:
+  - `run_results_central`: Current run's execution results (replaced each run)
+  - `run_results_history`: Historical execution results (non-dev environments only)
+- **Fields**: `database_relation_name`, `model_name`, `execution_status`, `execution_time`, `rows_affected`, `_timestamp`
+
+### Environment Behavior
+- **Dev**: Only creates `*_central` tables
+- **Non-dev** (`DBT_CLOUD_ENVIRONMENT_TYPE != 'dev'`): Also historizes to `*_history` tables with surrogate keys
+
+### Testing Macros Locally
+```bash
+# Test with dev environment (no historization)
+dbt build -s incremental_seed +customer_tier
+
+# Test with prod environment (includes historization)
+export DBT_CLOUD_ENVIRONMENT_TYPE=prod
+dbt build -s incremental_seed +customer_tier
+```

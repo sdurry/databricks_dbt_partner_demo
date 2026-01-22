@@ -1,0 +1,35 @@
+version: 2
+
+macros:
+  - name: centralize_test_failures
+    description: |
+      Centralizes test failures from dbt runs into a single table for monitoring and analysis.
+
+      This macro is designed to be called in an `on-run-end` hook. It collects all test results
+      where `store_failures` is enabled and consolidates them into central tables.
+
+      **Usage:**
+      Add to `dbt_project.yml`:
+      ```yaml
+      on-run-end:
+        - "{{ centralize_test_failures(results) }}"
+      ```
+
+      **Requirements:**
+      - Run dbt with `--store-failures` flag or set `store_failures: true` in test config
+      - Requires `dbt_utils` package for surrogate key generation (history table)
+
+      **Tables Created:**
+      - `{target.schema}.test_failure_central`: Replaced each run with current failures
+      - `{target.schema}.test_failure_history`: Append-only historical record (non-dev only)
+
+      **Environment Behavior:**
+      - Dev (`DBT_CLOUD_ENVIRONMENT_TYPE=dev` or unset): Only creates central table
+      - Non-dev: Also inserts into history table with surrogate key
+
+    arguments:
+      - name: results
+        type: list
+        description: |
+          The dbt `results` object passed automatically by dbt in on-run-end hooks.
+          Contains execution results for all nodes in the run.

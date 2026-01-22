@@ -23,7 +23,9 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "dbt_packages"
 
 on-run-start: "grant usage on schema {{target.database}}.{{target.schema}} to `Partner Engineers`"
-on-run-end: "{{ centralize_test_failures(results) }}"
+on-run-end:
+  - "{{ centralize_test_failures(results) }}"
+  - "{{ centralize_run_results(results) }}"
 
 flags:
   require_generic_test_arguments_property: true
